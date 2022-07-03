@@ -4,13 +4,21 @@
   let task = ''
   
   const addTodo = () => {
-    let todo = {
-      task: task,
-      isComplete : false,
-      createdAt: new Date(),
+    if(task.trim() != '') {
+      let todo = {
+        task: task.trim(),
+        isComplete : false,
+        createdAt: new Date(),
+      }
+      todos = [...todos, todo];
     }
-    todos = [...todos, todo];
     task = '';
+  }
+
+  const keyIsPressed = (e) => {
+    if(e.key === 'Enter') {
+      addTodo();
+    }
   }
   
   const markTodoAsComplete = (index) => {
@@ -27,7 +35,7 @@
 </script>
 
 <input type='text' placeholder="Add a task" bind:value={task} />
-<button on:click={addTodo} >Add</button>
+<button on:click={addTodo} on:keydown={handleEnter} >Add</button>
 
 <ol>
   {#each todos as item, index}
@@ -44,6 +52,8 @@
     <p>No todo found</p>
   {/each}
 </ol>
+
+<svelte:window on:keydown={keyIsPressed} />
 
 <style>
   .complete {
