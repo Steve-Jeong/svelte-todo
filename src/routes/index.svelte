@@ -5,20 +5,22 @@
     {task:'Get bread', isComplete:false, createdAt: new Date()},
   ]
 
-  let todo = {
-    task: '',
-    isComplete : false,
-    createdAt: new Date(),
-  }
-
+  let task = ''
+  
   const addTodo = () => {
+    let todo = {
+      task: task,
+      isComplete : false,
+      createdAt: new Date(),
+    }
     todos = [...todos, todo];
+    task = '';
   }
 
-  $:console.log(todo)
+  $:console.table(todos)
 </script>
 
-<input type='text' placeholder="Add a task" bind:value={todo.task} />
+<input type='text' placeholder="Add a task" bind:value={task} />
 <button on:click={addTodo} >Add</button>
 
 <ol>
