@@ -1,2 +1,19 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+  let todos = [
+    {task:'Get milk', isComplete:false, createdAt: new Date()},
+    {task:'Get eggs', isComplete:true, createdAt: new Date()},
+    {task:'Get bread', isComplete:false, createdAt: new Date()},
+  ]
+</script>
+
+<ol>
+  {#each todos as todo}
+    <li class:complete={todo.isComplete}>{todo.task} at {todo.createdAt}</li>
+  {/each}
+</ol>
+
+<style>
+  .complete {
+    text-decoration: line-through;
+  }
+</style>
