@@ -40,6 +40,8 @@
         <button on:click={()=>deleteTodo(index)}>❎</button>
       </span>
     </li>
+  {:else}
+    <p>No todo found</p>
   {/each}
 </ol>
 
