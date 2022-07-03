@@ -35,7 +35,7 @@
 </script>
 
 <input type='text' placeholder="Add a task" bind:value={task} />
-<button on:click={addTodo} on:keydown={handleEnter} >Add</button>
+<button on:click={addTodo}>Add</button>
 
 <ol>
   {#each todos as item, index}
