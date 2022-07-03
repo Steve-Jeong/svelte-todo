@@ -10,10 +10,16 @@
     isComplete : false,
     createdAt: new Date(),
   }
+
+  const addTodo = () => {
+    todos = [...todos, todo];
+  }
+
+  $:console.log(todo)
 </script>
 
 <input type='text' placeholder="Add a task" bind:value={todo.task} />
-<button>Add</button>
+<button on:click={addTodo} >Add</button>
 
 <ol>
   {#each todos as todo}
