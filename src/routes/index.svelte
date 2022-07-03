@@ -12,10 +12,15 @@
     todos = [...todos, todo];
     task = '';
   }
-
+  
   const markTodoAsComplete = (index) => {
     // console.log(index)
     todos[index].isComplete = !todos[index].isComplete;
+  }
+
+  const deleteTodo = (index) => {
+    let deleteItem = todos[index];
+    todos = todos.filter((item) => item != deleteItem)
   }
   
   $:console.table(todos)
@@ -31,7 +36,8 @@
         {item.task} at {item.createdAt}
       </span>
       <span>
-        <button on:click={()=>markTodoAsComplete(index)}>✔</button>
+        <button on:click={()=>markTodoAsComplete(index)}>✅</button>
+        <button on:click={()=>deleteTodo(index)}>❎</button>
       </span>
     </li>
   {/each}
