@@ -1,9 +1,5 @@
 <script>
-  let todos = [
-    {task:'Get milk', isComplete:false, createdAt: new Date()},
-    {task:'Get eggs', isComplete:true, createdAt: new Date()},
-    {task:'Get bread', isComplete:false, createdAt: new Date()},
-  ]
+  let todos = [ ]
 
   let task = ''
   
@@ -17,6 +13,11 @@
     task = '';
   }
 
+  const markTodoAsComplete = (index) => {
+    // console.log(index)
+    todos[index].isComplete = !todos[index].isComplete;
+  }
+  
   $:console.table(todos)
 </script>
 
@@ -24,8 +25,15 @@
 <button on:click={addTodo} >Add</button>
 
 <ol>
-  {#each todos as todo}
-    <li class:complete={todo.isComplete}>{todo.task} at {todo.createdAt}</li>
+  {#each todos as item, index}
+    <li class:complete={item.isComplete}>
+      <span>
+        {item.task} at {item.createdAt}
+      </span>
+      <span>
+        <button on:click={()=>markTodoAsComplete(index)}>✔</button>
+      </span>
+    </li>
   {/each}
 </ol>
 
