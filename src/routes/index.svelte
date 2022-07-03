@@ -2,6 +2,7 @@
   let todos = [ ]
 
   let task = ''
+  let error = ''
   
   const addTodo = () => {
     if(task.trim() != '') {
@@ -11,6 +12,9 @@
         createdAt: new Date(),
       }
       todos = [...todos, todo];
+      error = ''
+    } else {
+      error = 'task is empty'
     }
     task = '';
   }
@@ -51,6 +55,7 @@
   {:else}
     <p>No todo found</p>
   {/each}
+  <p class='error'>{error}</p>
 </ol>
 
 <svelte:window on:keydown={keyIsPressed} />
@@ -58,5 +63,8 @@
 <style>
   .complete {
     text-decoration: line-through;
+  }
+  .error {
+    color: red;
   }
 </style>
