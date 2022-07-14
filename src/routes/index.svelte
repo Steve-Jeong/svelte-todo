@@ -1,17 +1,34 @@
 <script>
-  import { initializeApp } from "firebase/app";
-  import { getFirestore } from "firebase/firestore";
+  import { initializeApp, getApps, getApp } from "firebase/app";
+  import { getFirestore, collection, onSnapshot } from "firebase/firestore";
   import { firebaseConfig } from "$lib/firebaseConfig";
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+  const firebaseApp = 
+    getApps().length === 0 ? 
+      initializeApp(firebaseConfig) : 
+      getApp()
 
   // Initialize Cloud Firestore and get a reference to the service
-  const db = getFirestore(app);
+  const db = getFirestore(firebaseApp);
 
-  console.log({app, db});
+  // console.log(firebaseApp);
+  // console.log(db)
+
+  // collection
+  const colRef = collection(db, 'todos');
+  // console.log(colRef)
 
   let todos = [];
+  const unsubscribe = onSnapshot(colRef, (querySnapshot) => {
+    let fbTodos = []
+    querySnapshot.forEach((doc) => {
+      let todo = {...doc.data(), id: doc.id}
+      fbTodos = [todo, ...fbTodos];
+    });
+    console.table('todos', fbTodos);
+    todos = fbTodos;
+  });
 
   let task = "";
   let error = "";
