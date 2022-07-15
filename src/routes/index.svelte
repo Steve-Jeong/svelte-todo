@@ -1,6 +1,6 @@
 <script>
   import { initializeApp, getApps, getApp } from "firebase/app";
-  import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "firebase/firestore";
+  import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc, addDoc } from "firebase/firestore";
   import { firebaseConfig } from "$lib/firebaseConfig";
 
   // Initialize Firebase
@@ -33,14 +33,13 @@
   let task = "";
   let error = "";
 
-  const addTodo = () => {
+  const addTodo = async () => {
     if (task.trim() != "") {
-      let todo = {
+      const docRef = await addDoc(collection(db, 'todos'), {
         task: task.trim(),
         isComplete: false,
         createdAt: new Date(),
-      };
-      todos = [...todos, todo];
+      })
       error = "";
     } else {
       error = "task is empty";
@@ -75,7 +74,7 @@
 <button on:click={addTodo}>Add</button>
 
 <ol>
-  {#each todos as item(item.id)}
+  {#each todos as item (item.id)}
     <li class:complete={item.isComplete}>
       <span>
         {item.task} at {item.createdAt}
