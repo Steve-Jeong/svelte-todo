@@ -1,6 +1,6 @@
 <script>
   import { initializeApp, getApps, getApp } from "firebase/app";
-  import { getFirestore, collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
+  import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "firebase/firestore";
   import { firebaseConfig } from "$lib/firebaseConfig";
 
   // Initialize Firebase
@@ -62,9 +62,10 @@
     })
   };
 
-  const deleteTodo = (index) => {
-    let deleteItem = todos[index];
-    todos = todos.filter((item) => item != deleteItem);
+  const deleteTodo = async (id) => {
+    // let deleteItem = todos[index];
+    // todos = todos.filter((item) => item != deleteItem);
+    await deleteDoc(doc(db, 'todos', id))
   };
 
   $: console.table(todos);
@@ -81,7 +82,7 @@
       </span>
       <span>
         <button on:click={() => markTodoAsComplete(item)}>✅</button>
-        <button on:click={() => deleteTodo(item)}>❎</button>
+        <button on:click={() => deleteTodo(item.id)}>❎</button>
       </span>
     </li>
   {:else}
