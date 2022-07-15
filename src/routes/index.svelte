@@ -1,6 +1,6 @@
 <script>
   import { initializeApp, getApps, getApp } from "firebase/app";
-  import { getFirestore, collection, onSnapshot } from "firebase/firestore";
+  import { getFirestore, collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
   import { firebaseConfig } from "$lib/firebaseConfig";
 
   // Initialize Firebase
@@ -54,9 +54,12 @@
     }
   };
 
-  const markTodoAsComplete = (index) => {
+  const markTodoAsComplete = async (item) => {
     // console.log(index)
-    todos[index].isComplete = !todos[index].isComplete;
+    // todos[index].isComplete = !todos[index].isComplete;
+    await updateDoc(doc(db, 'todos', item.id), {
+      isComplete : !item.isComplete,
+    })
   };
 
   const deleteTodo = (index) => {
@@ -71,14 +74,14 @@
 <button on:click={addTodo}>Add</button>
 
 <ol>
-  {#each todos as item, index}
+  {#each todos as item(item.id)}
     <li class:complete={item.isComplete}>
       <span>
         {item.task} at {item.createdAt}
       </span>
       <span>
-        <button on:click={() => markTodoAsComplete(index)}>✅</button>
-        <button on:click={() => deleteTodo(index)}>❎</button>
+        <button on:click={() => markTodoAsComplete(item)}>✅</button>
+        <button on:click={() => deleteTodo(item)}>❎</button>
       </span>
     </li>
   {:else}
